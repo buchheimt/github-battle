@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { battle } from '../utils/api';
 import PlayerPreview from './PlayerPreview';
+import Loading from './Loading';
 
 const Profile = ({ info }) => {
   return (
@@ -79,7 +80,7 @@ class Results extends React.Component {
             loading } = this.state;
 
     if (!!loading) {
-      return <p>Loading</p>
+      return <Loading />
     }
 
     if (error) {
