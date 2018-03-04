@@ -2,8 +2,8 @@ async function getProfile(username) {
   try {
     const res = await fetch(`https://api.github.com/users/${username}`);
     const body = await res.json();
-  
-    return body.data;
+
+    return body;
   } catch (e) {
     handleError(e);
   }
@@ -13,8 +13,8 @@ async function getRepos(username) {
   try {
     const res = await fetch(`https://api.github.com/users/${username}/repos?per_page=100`);
     const body = await res.json();
-  
-    return body.data;
+    
+    return body;
   } catch (e) {
     handleError(e);
   }
@@ -28,7 +28,7 @@ function calculateScore(profile, repos) {
   const followers = profile.followers;
   const totalStars = getStarCount(repos);
 
-  return (followers * 3) * totalStars;
+  return (followers * 3) + totalStars;
 }
 
 function handleError(error) {
@@ -69,8 +69,10 @@ export async function fetchPopularRepos(lang) {
 
 export async function battle(players) {
   try {
-    const playerData = await players.map(getUserData);
-    return sortPlayers(playerData);
+    const playerOne = await getUserData(players[0]);
+    const playerTwo = await getUserData(players[1]);
+
+    return sortPlayers([playerOne, playerTwo]);
   } catch (e) {
     handleError(e);
   }
